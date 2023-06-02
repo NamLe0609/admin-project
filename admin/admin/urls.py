@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from core.views import RoleAPIView, TaskAPIView, AdminAPIView, UserAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('roles/', RoleAPIView.as_view(), name='role-api'),
+    path('tasks/', TaskAPIView.as_view(), name='task-api'),
+    path('admins/', AdminAPIView.as_view(), name='admin-api'),
+    path('users/', UserAPIView.as_view(), name='user-api'),
 ]
