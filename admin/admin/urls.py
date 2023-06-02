@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from core.views import RoleAPIView, TaskAPIView, AdminAPIView, UserAPIView
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('tasks/', TaskAPIView.as_view(), name='task-api'),
     path('admins/', AdminAPIView.as_view(), name='admin-api'),
     path('users/', UserAPIView.as_view(), name='user-api'),
+    path('', TemplateView.as_view(template_name='index.html')),
 ]
