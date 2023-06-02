@@ -2,11 +2,11 @@ from django.db import models
 
 class Role(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    description = models.CharField(max_length=300)
+    description = models.CharField(max_length=300, default='')
 
 class Task(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    description = models.CharField(max_length=300)
+    description = models.CharField(max_length=300, default='')
 
 class Admin(models.Model):
     name = models.CharField(max_length=30)
