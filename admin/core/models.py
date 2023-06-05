@@ -10,7 +10,7 @@ class Task(models.Model):
 
 class Admin(models.Model):
     name = models.CharField(max_length=30)
-    username = models.CharField(max_length=64)
+    username = models.CharField(max_length=64, unique=True)
     password = models.CharField(max_length=64)
     
 class User(models.Model):

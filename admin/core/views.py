@@ -10,7 +10,14 @@ CACHE_TTL = 60 * 15
 
 class RoleAPIView(APIView):
     def get(self, request):
-        return cacheOrSend(Role, 'role')
+        cacheName = "role_list"
+        cache = checkCache(cacheName)
+        if cache:
+            return cache
+        else:
+            data = Role.objects.all()
+            serializer = RoleSerializer(data, many=True)
+            return setCache(cacheName, serializer)
 
     def post(self, request):
         serializer = RoleSerializer(data=request.data)
@@ -18,7 +25,14 @@ class RoleAPIView(APIView):
     
 class TaskAPIView(APIView):
     def get(self, request):
-        return cacheOrSend(Task, 'task')
+        cacheName = "task_list"
+        cache = checkCache(cacheName)
+        if cache:
+            return cache
+        else:
+            data = Task.objects.all()
+            serializer = TaskSerializer(data, many=True)
+            return setCache(cacheName, serializer)
 
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
@@ -26,7 +40,14 @@ class TaskAPIView(APIView):
     
 class AdminAPIView(APIView):
     def get(self, request):
-        return cacheOrSend(Admin, 'admin')
+        cacheName = "admin_list"
+        cache = checkCache(cacheName)
+        if cache:
+            return cache
+        else:
+            data = Admin.objects.all()
+            serializer = AdminSerializer(data, many=True)
+            return setCache(cacheName, serializer)
 
     def post(self, request):
         serializer = AdminSerializer(data=request.data)
@@ -34,7 +55,14 @@ class AdminAPIView(APIView):
     
 class UserAPIView(APIView):
     def get(self, request):
-        return cacheOrSend(User, 'user')
+        cacheName = "user_list"
+        cache = checkCache(cacheName)
+        if cache:
+            return cache
+        else:
+            data = User.objects.all()
+            serializer = UserSerializer(data, many=True)
+            return setCache(cacheName, serializer)
         
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -46,15 +74,13 @@ def checkValidity(serializer):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def cacheOrSend(model, modelName):
-    cached_data = cache.get(f"{modelName}_list")
+def checkCache(cacheName):
+    cached_data = cache.get(cacheName)
     if cached_data:
         return Response(cached_data)
-    
-    users = model.objects.all()
-    serializer = RoleSerializer(users, many=True)
+    return False
+
+def setCache(cacheName, serializer):
     response_data = serializer.data
-    
-    cache.set(f"{modelName}_list", response_data, CACHE_TTL)
-    
+    cache.set(cacheName, response_data, CACHE_TTL)
     return Response(response_data)
