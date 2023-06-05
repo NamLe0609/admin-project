@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 
 function App() {
   return (
-      <Container className='vw-100 vh-100 justify-content-center'>
+      <Container>
         <Login></Login>
       </Container>
   );

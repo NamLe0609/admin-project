@@ -71,8 +71,8 @@ class UserAPIView(APIView):
 def checkValidity(serializer):
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(True, status=status.HTTP_201_CREATED)
+    return Response(False, status=status.HTTP_400_BAD_REQUEST)
 
 def checkCache(cacheName):
     cached_data = cache.get(cacheName)
