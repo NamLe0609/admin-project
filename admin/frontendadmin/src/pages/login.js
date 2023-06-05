@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../getCookie.js";
-/* import MainPage from "mainPage"; */
 
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -19,7 +18,7 @@ const CSRFTOKEN = getCookie("csrftoken");
 // The onChange functions have a 1 character delay, 
 // so maybe find a way to fix it later
 
-function Login() {
+const Login = (props) => {
   const [usernameLog, setUsernameLog] = useState("");
   const [passwordLog, setPasswordLog] = useState("");
   const [showLogin, setShowLogin] = useState(false);
@@ -27,7 +26,8 @@ function Login() {
   const [nameReg, setNameReg] = useState("");
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
-  const [showRegister, setShowRegister] = useState(false);
+  const [showRegisterSuccess, setShowRegisterSuccess] = useState(false);
+  const [showRegisterFail, setShowRegisterFail] = useState(false);
 
   const handleUsernameLogChange = (e) => {
     setUsernameLog(e.target.value);
@@ -53,7 +53,8 @@ function Login() {
     event.preventDefault();
     let matchedAdmin;
     try {
-      const response = await axios.get(BASE_URL + "admins/");
+      const response = await fetch(BASE_URL + "admins/");
+      console.log(response)
       const adminData = await response.json();
       matchedAdmin = adminData.find(
         (admin) =>
@@ -67,7 +68,7 @@ function Login() {
     event.target.reset();
 
     if (matchedAdmin) {
-      /* return <MainPage /> */
+      props.onLoginSuccess();
     } else {
       setShowLogin(true);
     }
@@ -98,10 +99,9 @@ function Login() {
     event.target.reset();
 
     if (success) {
-      console.log("success!");
-      /* return <MainPage /> */
+      setShowRegisterSuccess(true);
     } else {
-      setShowRegister(true);
+      setShowRegisterFail(true);
     }
   };
 
@@ -219,13 +219,22 @@ function Login() {
             Register
           </Button>
         </Form>
-        {showRegister && (
+        {showRegisterFail && (
           <Alert
             variant="danger"
-            onClose={() => setShowRegister(false)}
+            onClose={() => setShowRegisterFail(false)}
             dismissible
           >
             Username taken! Please choose a different username.
+          </Alert>
+        )}
+        {showRegisterSuccess && (
+          <Alert
+            variant="success"
+            onClose={() => setShowRegisterFail(false)}
+            dismissible
+          >
+            Account successfully created! Please log in.
           </Alert>
         )}
       </Row>
