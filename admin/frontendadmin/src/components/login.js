@@ -85,7 +85,7 @@ function Login({ onLogin }) {
         </Row>
 
         <Button className="mb-2" type="submit">
-          Submit form
+          Login
         </Button>
       </Form>
       {show && (
