@@ -5,6 +5,11 @@ import MainPage from "./pages/mainPage"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 
+// Todo
+
+// Work in some kind of session-based authentication methods
+// since I have more than one admin entity
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 

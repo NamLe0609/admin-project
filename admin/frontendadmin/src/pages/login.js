@@ -63,15 +63,17 @@ const Login = (props) => {
     } catch (error) {
       console.log(error);
     }
-    setUsernameLog("");
-    setPasswordLog("");
-    event.target.reset();
-
+    console.log(matchedAdmin);
     if (matchedAdmin) {
+      window.sessionStorage.setItem("user", JSON.stringify(matchedAdmin));
       props.onLoginSuccess();
     } else {
       setShowLogin(true);
     }
+
+    setUsernameLog("");
+    setPasswordLog("");
+    event.target.reset();
   };
 
   const handleSubmitRegister = async (event) => {
