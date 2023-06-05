@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { getCookie } from "../getCookie.js";
 /* import MainPage from "mainPage"; */
 
 import Button from "react-bootstrap/Button";
@@ -11,6 +12,12 @@ import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/esm/Container";
 
 const BASE_URL = "http://127.0.0.1:8000/";
+const CSRFTOKEN = getCookie("csrftoken");
+
+// Todo
+
+// The onChange functions have a 1 character delay, 
+// so maybe find a way to fix it later
 
 function Login() {
   const [usernameLog, setUsernameLog] = useState("");
@@ -44,7 +51,6 @@ function Login() {
 
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
-    event.target.reset();
     let matchedAdmin;
     try {
       const response = await axios.get(BASE_URL + "admins/");
@@ -56,37 +62,47 @@ function Login() {
     } catch (error) {
       console.log(error);
     }
+    setUsernameLog("");
+    setPasswordLog("");
+    event.target.reset();
+
     if (matchedAdmin) {
       /* return <MainPage /> */
     } else {
       setShowLogin(true);
     }
-    setUsernameLog("");
-    setPasswordLog("");
   };
 
   const handleSubmitRegister = async (event) => {
     event.preventDefault();
-    event.target.reset();
     let success;
+    const postData = {
+      name: nameReg,
+      username: usernameReg,
+      password: passwordReg,
+    };
     try {
-      const response = await axios.post(BASE_URL + "admins/", {
-        nameReg,
-        usernameReg,
-        passwordReg,
+      const response = await axios.post(BASE_URL + "admins/", postData, {
+        headers: {
+          "X-CSRFToken": CSRFTOKEN,
+          "Content-Type": "application/json",
+        },
       });
-      success = response.data
+      success = response.data;
     } catch (error) {
       console.log(error);
     }
+    setNameReg("");
+    setUsernameReg("");
+    setPasswordReg("");
+    event.target.reset();
+
     if (success) {
-      console.log("success!")
+      console.log("success!");
       /* return <MainPage /> */
     } else {
       setShowRegister(true);
     }
-    setUsernameReg("");
-    setPasswordReg("");
   };
 
   return (
@@ -95,7 +111,7 @@ function Login() {
       <Row className="mt-3">
         <Form onSubmit={handleSubmitLogin}>
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationUsername">
+            <Form.Group as={Col} controlId="validationUsernameLog">
               <Form.Label>Username</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -112,7 +128,7 @@ function Login() {
             </Form.Group>
           </Row>
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationPassword">
+            <Form.Group as={Col} controlId="validationPasswordLog">
               <Form.Label>Password</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -148,7 +164,7 @@ function Login() {
       <Row className="mt-3">
         <Form onSubmit={handleSubmitRegister}>
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationName">
+            <Form.Group as={Col} controlId="validationNameReg">
               <Form.Label>Name</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -165,7 +181,7 @@ function Login() {
             </Form.Group>
           </Row>
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationUsername">
+            <Form.Group as={Col} controlId="validationUsernameReg">
               <Form.Label>Username</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -182,7 +198,7 @@ function Login() {
             </Form.Group>
           </Row>
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationPassword">
+            <Form.Group as={Col} controlId="validationPasswordReg">
               <Form.Label>Password</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control

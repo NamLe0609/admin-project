@@ -50,7 +50,9 @@ class AdminAPIView(APIView):
             return setCache(cacheName, serializer)
 
     def post(self, request):
+        print(request.data)
         serializer = AdminSerializer(data=request.data)
+        print(serializer)
         return checkValidity(serializer)
     
 class UserAPIView(APIView):
