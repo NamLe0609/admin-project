@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-import Login from "./pages/login";
-import MainPage from "./pages/mainPage"
+import Login from "./components/login";
+import MainPage from "./components/mainPage"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 
@@ -11,14 +11,14 @@ import Container from "react-bootstrap/Container";
 // since I have more than one admin entity
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
 
   return (
-    <Container>
+    <Container fluid className="px-0">
       {isLoggedIn ? <MainPage/> : <Login onLoginSuccess={handleLoginSuccess}/>}
     </Container>
   );
