@@ -1,5 +1,5 @@
 import './App.css';
-import Login from './components/login';
+import Login from './pages/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 
