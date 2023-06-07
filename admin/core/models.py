@@ -7,6 +7,7 @@ class Role(models.Model):
 class Task(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=300, default='')
+    role_requirement = models.ForeignKey(Role, on_delete=models.CASCADE, null=True, blank=True)
 
 class Admin(models.Model):
     name = models.CharField(max_length=30)
