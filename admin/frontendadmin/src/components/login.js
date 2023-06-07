@@ -15,77 +15,133 @@ const CSRFTOKEN = getCookie("csrftoken");
 
 // Todo
 
-// The onChange functions have a 1 character delay, 
+// The onChange functions have a 1 character delay,
 // so maybe find a way to fix it later
 
-const Login = (props) => {
-  const [usernameLog, setUsernameLog] = useState("");
-  const [passwordLog, setPasswordLog] = useState("");
-  const [showLogin, setShowLogin] = useState(false);
+const LoginForm = ({ onLoginSuccess }) => {
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+  const [showLoginError, setShowLoginError] = useState(false);
 
-  const [nameReg, setNameReg] = useState("");
-  const [usernameReg, setUsernameReg] = useState("");
-  const [passwordReg, setPasswordReg] = useState("");
-  const [showRegisterSuccess, setShowRegisterSuccess] = useState(false);
-  const [showRegisterFail, setShowRegisterFail] = useState(false);
-
-  const handleUsernameLogChange = (e) => {
-    setUsernameLog(e.target.value);
-  };
-
-  const handlePasswordLogChange = (e) => {
-    setPasswordLog(e.target.value);
-  };
-
-  const handleNameRegChange = (e) => {
-    setNameReg(e.target.value);
-  };
-
-  const handleUsernameRegChange = (e) => {
-    setUsernameReg(e.target.value);
-  };
-
-  const handlePasswordRegChange = (e) => {
-    setPasswordReg(e.target.value);
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
-    let matchedAdmin;
     try {
       const response = await fetch(BASE_URL + "admins/");
-      console.log(response)
       const adminData = await response.json();
-      matchedAdmin = adminData.find(
+      const matchedAdmin = adminData.find(
         (admin) =>
-          admin.username === usernameLog && admin.password === passwordLog
+          admin.username === loginData.username &&
+          admin.password === loginData.password
       );
+      if (matchedAdmin) {
+        window.sessionStorage.setItem("user", JSON.stringify(matchedAdmin));
+        onLoginSuccess();
+      } else {
+        setShowLoginError(true);
+      }
     } catch (error) {
       console.log(error);
     }
-    console.log(matchedAdmin);
-    if (matchedAdmin) {
-      window.sessionStorage.setItem("user", JSON.stringify(matchedAdmin));
-      props.onLoginSuccess();
-    } else {
-      setShowLogin(true);
-    }
-
-    setUsernameLog("");
-    setPasswordLog("");
+    setLoginData({
+      username: "",
+      password: "",
+    });
     event.target.reset();
+  };
+
+  return (
+    <>
+      <Form onSubmit={handleSubmitLogin}>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="validationUsernameReg">
+            <Form.Label>Username</Form.Label>
+            <InputGroup hasValidation>
+              <Form.Control
+                type="text"
+                placeholder="Username"
+                aria-describedby="inputGroupPrepend"
+                name="username"
+                value={loginData.username}
+                onChange={handleLoginChange}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please input a username
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="validationPasswordLog">
+            <Form.Label>Password</Form.Label>
+            <InputGroup hasValidation>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                aria-describedby="inputGroupPrepend"
+                name="password"
+                value={loginData.password}
+                onChange={handleLoginChange}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please input a password
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+        </Row>
+
+        <Button className="mb-2" type="submit">
+          Login
+        </Button>
+      </Form>
+      {showLoginError && (
+        <Alert
+          variant="danger"
+          onClose={() => setShowLoginError(false)}
+          dismissible
+        >
+          Login failed!
+        </Alert>
+      )}
+    </>
+  );
+};
+
+const RegisterForm = () => {
+  const [registerData, setRegisterData] = useState({
+    name: "",
+    username: "",
+    password: "",
+  });
+
+  const [showRegisterSuccess, setShowRegisterSuccess] = useState(false);
+  const [showRegisterFail, setShowRegisterFail] = useState(false);
+
+  const handleRegisterChange = (e) => {
+    const { name, value } = e.target;
+    setRegisterData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmitRegister = async (event) => {
     event.preventDefault();
     let success;
-    const postData = {
-      name: nameReg,
-      username: usernameReg,
-      password: passwordReg,
-    };
+    console.log(registerData)
     try {
-      const response = await axios.post(BASE_URL + "admins/", postData, {
+      const response = await axios.post(BASE_URL + "admins/", registerData, {
         headers: {
           "X-CSRFToken": CSRFTOKEN,
           "Content-Type": "application/json",
@@ -95,153 +151,124 @@ const Login = (props) => {
     } catch (error) {
       console.log(error);
     }
-    setNameReg("");
-    setUsernameReg("");
-    setPasswordReg("");
-    event.target.reset();
-
     if (success) {
       setShowRegisterSuccess(true);
     } else {
       setShowRegisterFail(true);
     }
+    setRegisterData({
+      name: "",
+      username: "",
+      password: "",
+    });
+    event.target.reset();
+  };
+
+  return (
+    <>
+      <Form onSubmit={handleSubmitRegister}>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="validationNameReg">
+            <Form.Label>Name</Form.Label>
+            <InputGroup hasValidation>
+              <Form.Control
+                type="text"
+                placeholder="Name"
+                aria-describedby="inputGroupPrepend"
+                name="name"
+                value={registerData.name}
+                onChange={handleRegisterChange}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please input a name
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="validationUsernameReg">
+            <Form.Label>Username</Form.Label>
+            <InputGroup hasValidation>
+              <Form.Control
+                type="text"
+                placeholder="Username"
+                aria-describedby="inputGroupPrepend"
+                name="username"
+                value={registerData.username}
+                onChange={handleRegisterChange}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please input a username
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="validationPasswordReg">
+            <Form.Label>Password</Form.Label>
+            <InputGroup hasValidation>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                aria-describedby="inputGroupPrepend"
+                name="password"
+                value={registerData.password}
+                onChange={handleRegisterChange}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please input a password
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+        </Row>
+
+        <Button className="mb-2" type="submit">
+          Register
+        </Button>
+      </Form>
+      {showRegisterFail && (
+        <Alert
+          variant="danger"
+          onClose={() => setShowRegisterFail(false)}
+          dismissible
+        >
+          Username taken! Please choose a different username.
+        </Alert>
+      )}
+      {showRegisterSuccess && (
+        <Alert
+          variant="success"
+          onClose={() => setShowRegisterFail(false)}
+          dismissible
+        >
+          Account successfully created! Please log in.
+        </Alert>
+      )}
+    </>
+  );
+};
+
+const Login = (props) => {
+  const handleLoginSuccess = () => {
+    props.onLoginSuccess();
   };
 
   return (
     <Container>
       <h1 className="mt-5">If you have an account:</h1>
       <Row className="mt-3">
-        <Form onSubmit={handleSubmitLogin}>
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationUsernameLog">
-              <Form.Label>Username</Form.Label>
-              <InputGroup hasValidation>
-                <Form.Control
-                  type="text"
-                  placeholder="Username"
-                  aria-describedby="inputGroupPrepend"
-                  onChange={handleUsernameLogChange}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please input a username
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationPasswordLog">
-              <Form.Label>Password</Form.Label>
-              <InputGroup hasValidation>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  aria-describedby="inputGroupPrepend"
-                  onChange={handlePasswordLogChange}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please input a password
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-          </Row>
-
-          <Button className="mb-2" type="submit">
-            Login
-          </Button>
-        </Form>
-        {showLogin && (
-          <Alert
-            variant="danger"
-            onClose={() => setShowLogin(false)}
-            dismissible
-          >
-            Login failed!
-          </Alert>
-        )}
+        <LoginForm onLoginSuccess={handleLoginSuccess}/>
       </Row>
 
       <h1 className="mt-5">Otherwise, register:</h1>
       <Row className="mt-3">
-        <Form onSubmit={handleSubmitRegister}>
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationNameReg">
-              <Form.Label>Name</Form.Label>
-              <InputGroup hasValidation>
-                <Form.Control
-                  type="text"
-                  placeholder="Name"
-                  aria-describedby="inputGroupPrepend"
-                  onChange={handleNameRegChange}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please input a name
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationUsernameReg">
-              <Form.Label>Username</Form.Label>
-              <InputGroup hasValidation>
-                <Form.Control
-                  type="text"
-                  placeholder="Username"
-                  aria-describedby="inputGroupPrepend"
-                  onChange={handleUsernameRegChange}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please input a username
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationPasswordReg">
-              <Form.Label>Password</Form.Label>
-              <InputGroup hasValidation>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  aria-describedby="inputGroupPrepend"
-                  onChange={handlePasswordRegChange}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please input a password
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-          </Row>
-
-          <Button className="mb-2" type="submit">
-            Register
-          </Button>
-        </Form>
-        {showRegisterFail && (
-          <Alert
-            variant="danger"
-            onClose={() => setShowRegisterFail(false)}
-            dismissible
-          >
-            Username taken! Please choose a different username.
-          </Alert>
-        )}
-        {showRegisterSuccess && (
-          <Alert
-            variant="success"
-            onClose={() => setShowRegisterFail(false)}
-            dismissible
-          >
-            Account successfully created! Please log in.
-          </Alert>
-        )}
+        <RegisterForm />
       </Row>
     </Container>
   );
-}
+};
 
 export default Login;
