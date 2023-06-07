@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.cache import cache
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -23,6 +24,16 @@ class RoleAPIView(APIView):
         serializer = RoleSerializer(data=request.data)
         return checkValidity(serializer)
     
+    def put(self, request, pk):
+        role = get_object_or_404(Role, pk=pk)
+        serializer = RoleSerializer(role, data=request.data)
+        return checkValidity(serializer)
+
+    def delete(self, request, pk):
+        role = get_object_or_404(Role, pk=pk)
+        role.delete()
+        return Response(True, status=status.HTTP_204_NO_CONTENT)
+    
 class TaskAPIView(APIView):
     def get(self, request):
         cacheName = "task_list"
@@ -37,6 +48,16 @@ class TaskAPIView(APIView):
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
         return checkValidity(serializer)
+    
+    def put(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        serializer = TaskSerializer(task, data=request.data)
+        return checkValidity(serializer)
+
+    def delete(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        task.delete()
+        return Response(True, status=status.HTTP_204_NO_CONTENT)
     
 class AdminAPIView(APIView):
     def get(self, request):
@@ -55,6 +76,16 @@ class AdminAPIView(APIView):
         print(serializer)
         return checkValidity(serializer)
     
+    def put(self, request, pk):
+        admin = get_object_or_404(Admin, pk=pk)
+        serializer = AdminSerializer(admin, data=request.data)
+        return checkValidity(serializer)
+
+    def delete(self, request, pk):
+        admin = get_object_or_404(Admin, pk=pk)
+        admin.delete()
+        return Response(True, status=status.HTTP_204_NO_CONTENT)
+    
 class UserAPIView(APIView):
     def get(self, request):
         cacheName = "user_list"
@@ -69,6 +100,16 @@ class UserAPIView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         return checkValidity(serializer)
+    
+    def put(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        serializer = UserSerializer(user, data=request.data)
+        return checkValidity(serializer)
+
+    def delete(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        user.delete()
+        return Response(True, status=status.HTTP_204_NO_CONTENT)
 
 def checkValidity(serializer):
     if serializer.is_valid():
