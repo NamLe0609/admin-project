@@ -11,8 +11,8 @@ const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 const AddEmployeeForm = () => {
   const [registerData, setRegisterData] = useState({
     name: "",
-    task: "unassigned",
-    role: "unassigned",
+    task: "Unassigned",
+    role: "Unassigned",
     supervisor: adminInfo.username,
   });
 
@@ -52,6 +52,7 @@ const AddEmployeeForm = () => {
       });
       success = response.data;
     } catch (error) {
+      console.log("error!")
       console.log(error);
     }
     if (success) {
@@ -61,8 +62,8 @@ const AddEmployeeForm = () => {
     }
     setRegisterData({
       name: "",
-      task: "unassigned",
-      role: "unassigned",
+      task: "Unassigned",
+      role: "Unassigned",
       supervisor: adminInfo.username,
     });
     event.target.reset();

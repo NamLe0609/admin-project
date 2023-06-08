@@ -25,5 +25,6 @@ urlpatterns = [
     path('tasks/', TaskAPIView.as_view(), name='task-api'),
     path('admins/', AdminAPIView.as_view(), name='admin-api'),
     path('employees/', EmployeeAPIView.as_view(), name='employee-api'),
+    path('employees/<int:pk>/', EmployeeAPIView.as_view(), name='employee-detail-api'),
     path('', TemplateView.as_view(template_name='index.html')),
 ]

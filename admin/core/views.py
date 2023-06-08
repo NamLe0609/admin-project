@@ -7,7 +7,7 @@ from rest_framework import status
 from .models import Role, Task, Admin, Employee
 from .serializer import RoleSerializer, TaskSerializer, AdminSerializer, EmployeeSerializer
 
-CACHE_TTL = 60 * 15
+CACHE_TTL = 60 * 5
 
 class RoleAPIView(APIView):
     def get(self, request):
@@ -18,7 +18,7 @@ class RoleAPIView(APIView):
         else:
             data = Role.objects.all()
             serializer = RoleSerializer(data, many=True)
-            return setCache(cacheName, serializer)
+            return setCache(cacheName, serializer, timeout=CACHE_TTL)
 
     def post(self, request):
         serializer = RoleSerializer(data=request.data)
@@ -43,7 +43,7 @@ class TaskAPIView(APIView):
         else:
             data = Task.objects.all()
             serializer = TaskSerializer(data, many=True)
-            return setCache(cacheName, serializer)
+            return setCache(cacheName, serializer, timeout=CACHE_TTL)
 
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
@@ -68,7 +68,7 @@ class AdminAPIView(APIView):
         else:
             data = Admin.objects.all()
             serializer = AdminSerializer(data, many=True)
-            return setCache(cacheName, serializer)
+            return setCache(cacheName, serializer, timeout=CACHE_TTL)
 
     def post(self, request):
         print(request.data)
@@ -90,12 +90,13 @@ class EmployeeAPIView(APIView):
     def get(self, request):
         cacheName = "employee_list"
         cache = checkCache(cacheName)
+        print("hi")
         if cache:
             return cache
         else:
             data = Employee.objects.all()
             serializer = EmployeeSerializer(data, many=True)
-            return setCache(cacheName, serializer)
+            return setCache(cacheName, serializer, timeout=CACHE_TTL)
         
     def post(self, request):
         serializer = EmployeeSerializer(data=request.data)

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { getCookie } from "../../getCookie.js";
 
 import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
-const CSRFTOKEN = getCookie("csrftoken");
 const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 
 const RemoveEmployeeForm = () => {
@@ -26,7 +24,8 @@ const RemoveEmployeeForm = () => {
   };
 
   const handleEmployeeChange = (e) => {
-    const employeeId = e.target.value;
+    let employeeId = e.target.value;
+    employeeId = parseInt(e.target.value, 10);
     const employee = employees.find((employee) => employee.id === employeeId);
     setSelectedEmployee(employee);
   };
@@ -35,7 +34,10 @@ const RemoveEmployeeForm = () => {
     event.preventDefault();
     let success;
     try {
-      await axios.delete(`${BASE_URL}employees/${selectedEmployee}`);
+      const response = await axios.delete(`${BASE_URL}employees/${selectedEmployee.id}`);
+      console.log(response)
+      success = response.data
+      console.log(success)
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +65,7 @@ const RemoveEmployeeForm = () => {
               ))}
             </Form.Select>
             {selectedEmployee && (
-              <div>
+              <div className="mt-3">
                 <p>Name: {selectedEmployee.name}</p>
                 <p>Task: {selectedEmployee.task}</p>
                 <p>Role: {selectedEmployee.role}</p>
@@ -73,7 +75,7 @@ const RemoveEmployeeForm = () => {
           </Form.Group>
         </Row>
         <Button className="mb-2" type="submit">
-          Add
+          Remove
         </Button>
       </Form>
       {showDeleteFail && (

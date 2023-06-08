@@ -31,7 +31,6 @@ const LoginForm = ({ onLoginSuccess }) => {
       );
       if (matchedAdmin) {
         window.sessionStorage.setItem("admin", JSON.stringify(matchedAdmin));
-        console.log("success!");
         onLoginSuccess();
       } else {
         setShowLoginError(true);
