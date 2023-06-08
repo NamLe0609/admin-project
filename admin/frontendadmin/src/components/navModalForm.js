@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Nav } from "react-bootstrap";
+import { Modal, Button, Nav } from "react-bootstrap";
 
-const NavModalForm = ({ formTitle, onSubmit, children }) => {
+const NavModalForm = ({ formTitle, children }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
-
-  const handleSubmit = () => {
-    onSubmit();
-    handleCloseModal();
-  };
 
   return (
     <>
@@ -25,14 +20,11 @@ const NavModalForm = ({ formTitle, onSubmit, children }) => {
           <Modal.Title>{formTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>{children}</Form>
+          {children}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Submit
           </Button>
         </Modal.Footer>
       </Modal>

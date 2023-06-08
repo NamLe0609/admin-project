@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../getCookie.js";
 
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Row from "react-bootstrap/Row";
-import Alert from "react-bootstrap/Alert";
-import Container from "react-bootstrap/esm/Container";
+import { Button, Form, Row, Col, InputGroup, Alert, Container } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
@@ -44,7 +38,8 @@ const LoginForm = ({ onLoginSuccess }) => {
           admin.password === loginData.password
       );
       if (matchedAdmin) {
-        window.sessionStorage.setItem("user", JSON.stringify(matchedAdmin));
+        window.sessionStorage.setItem("admin", JSON.stringify(matchedAdmin));
+        console.log("success!");
         onLoginSuccess();
       } else {
         setShowLoginError(true);
