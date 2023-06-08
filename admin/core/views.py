@@ -102,13 +102,13 @@ class EmployeeAPIView(APIView):
         return checkValidity(serializer)
     
     def put(self, request, pk):
-        Employee = get_object_or_404(Employee, pk=pk)
-        serializer = EmployeeSerializer(Employee, data=request.data)
+        employee = get_object_or_404(Employee, pk=pk)
+        serializer = EmployeeSerializer(employee, data=request.data)
         return checkValidity(serializer)
 
     def delete(self, request, pk):
-        Employee = get_object_or_404(Employee, pk=pk)
-        Employee.delete()
+        employee = get_object_or_404(Employee, pk=pk)
+        employee.delete()
         return Response(True, status=status.HTTP_204_NO_CONTENT)
 
 def checkValidity(serializer):
