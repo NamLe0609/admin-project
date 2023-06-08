@@ -14,7 +14,7 @@ class Admin(models.Model):
     username = models.CharField(max_length=64, unique=True)
     password = models.CharField(max_length=64)
     
-class User(models.Model):
+class Employee(models.Model):
     name = models.CharField(max_length=30)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)

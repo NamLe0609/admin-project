@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Role, Task, Admin, User
-from .serializer import RoleSerializer, TaskSerializer, AdminSerializer, UserSerializer
+from .models import Role, Task, Admin, Employee
+from .serializer import RoleSerializer, TaskSerializer, AdminSerializer, EmployeeSerializer
 
 CACHE_TTL = 60 * 15
 
@@ -86,29 +86,29 @@ class AdminAPIView(APIView):
         admin.delete()
         return Response(True, status=status.HTTP_204_NO_CONTENT)
     
-class UserAPIView(APIView):
+class EmployeeAPIView(APIView):
     def get(self, request):
-        cacheName = "user_list"
+        cacheName = "employee_list"
         cache = checkCache(cacheName)
         if cache:
             return cache
         else:
-            data = User.objects.all()
-            serializer = UserSerializer(data, many=True)
+            data = Employee.objects.all()
+            serializer = EmployeeSerializer(data, many=True)
             return setCache(cacheName, serializer)
         
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = EmployeeSerializer(data=request.data)
         return checkValidity(serializer)
     
     def put(self, request, pk):
-        user = get_object_or_404(User, pk=pk)
-        serializer = UserSerializer(user, data=request.data)
+        Employee = get_object_or_404(Employee, pk=pk)
+        serializer = EmployeeSerializer(Employee, data=request.data)
         return checkValidity(serializer)
 
     def delete(self, request, pk):
-        user = get_object_or_404(User, pk=pk)
-        user.delete()
+        Employee = get_object_or_404(Employee, pk=pk)
+        Employee.delete()
         return Response(True, status=status.HTTP_204_NO_CONTENT)
 
 def checkValidity(serializer):

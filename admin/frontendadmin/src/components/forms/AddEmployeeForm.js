@@ -44,7 +44,7 @@ const AddEmployeeForm = () => {
     let success;
     console.log(registerData);
     try {
-      const response = await axios.post(BASE_URL + "users/", registerData, {
+      const response = await axios.post(BASE_URL + "employees/", registerData, {
         headers: {
           "X-CSRFToken": CSRFTOKEN,
           "Content-Type": "application/json",
@@ -94,6 +94,7 @@ const AddEmployeeForm = () => {
           <Form.Group as={Col} controlId="validationTask">
             <Form.Label>Select a role</Form.Label>
             <Form.Select onFocus={fetchData}>
+              <option disabled value="">Select a role</option>
               {roleOptions.map((option) => (
                 <option key={option.id} value={option.name}>
                   {option.name}
@@ -121,7 +122,7 @@ const AddEmployeeForm = () => {
           onClose={() => setShowRegisterFail(false)}
           dismissible
         >
-          User successfully added!
+          Employee successfully added!
         </Alert>
       )}
     </>

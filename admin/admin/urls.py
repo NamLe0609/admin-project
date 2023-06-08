@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import RoleAPIView, TaskAPIView, AdminAPIView, UserAPIView
+from core.views import RoleAPIView, TaskAPIView, AdminAPIView, EmployeeAPIView
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -24,6 +24,6 @@ urlpatterns = [
     path('roles/', RoleAPIView.as_view(), name='role-api'),
     path('tasks/', TaskAPIView.as_view(), name='task-api'),
     path('admins/', AdminAPIView.as_view(), name='admin-api'),
-    path('users/', UserAPIView.as_view(), name='user-api'),
+    path('employees/', EmployeeAPIView.as_view(), name='employee-api'),
     path('', TemplateView.as_view(template_name='index.html')),
 ]

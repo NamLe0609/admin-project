@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Role, Task, Admin, User
+from .models import Role, Task, Admin, Employee
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,12 +18,12 @@ class AdminSerializer(serializers.ModelSerializer):
         model = Admin
         fields = ['id', 'name', 'username', 'password']
 
-class UserSerializer(serializers.ModelSerializer):
+class EmployeeSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=30)
     task = serializers.SlugRelatedField(slug_field='name', queryset=Task.objects.all())
     role = serializers.SlugRelatedField(slug_field='name', queryset=Role.objects.all())
     supervisor = serializers.SlugRelatedField(slug_field='username', allow_null=True, queryset=Admin.objects.all(), required=False)
 
     class Meta:
-        model = User
+        model = Employee
         fields = ['id', 'name', 'task', 'role', 'supervisor']

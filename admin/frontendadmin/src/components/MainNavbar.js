@@ -9,6 +9,7 @@ import {
 import NavModalForm from "./forms/navModalForm";
 import NavDivider from "./navDivider";
 import AddEmployeeForm from "./forms/AddEmployeeForm.js";
+import RemoveEmployeeForm from "./forms/RemoveEmployeeForm";
 
 const MainNavbar = () => {
   const handleClick = () => {};
@@ -25,9 +26,9 @@ const MainNavbar = () => {
               <NavModalForm formTitle="Add Employees" onSubmit={handleClick}>
                 <AddEmployeeForm/>
               </NavModalForm>
-              <Nav.Link eventKey="removeEmployee" onClick={handleClick}>
-                Remove Employees
-              </Nav.Link>
+              <NavModalForm formTitle="Remove Employees" onSubmit={handleClick}>
+                <RemoveEmployeeForm/>
+              </NavModalForm>
               <NavDivider />
               <Nav.Link eventKey="addRole" onClick={handleClick}>
                 Create Role
