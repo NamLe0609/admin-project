@@ -13,9 +13,14 @@ const TaskComponent = () => {
         </div>
       </Col>
       <Col className="d-flex justify-content-center">
+        <div>
+          Currently assigned
+        </div>
+      </Col>
+      <Col className="d-flex justify-content-center">
         <div className="assign-buttons d-flex flex-column align-items-center">
           <Button className="btn btn-primary mb-2">Assign Employee</Button>
-          <Button className="btn btn-danger">Remove Employee</Button>
+          <Button className="btn btn-secondary">Remove Employee</Button>
         </div>
       </Col>
     </Row>

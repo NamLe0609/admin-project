@@ -4,7 +4,7 @@ import { getCookie } from "../getCookie.js";
 
 import MainNavbar from "./MainNavbar.js";
 import TaskComponent from "./TaskComponent.js";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
@@ -28,8 +28,17 @@ const MainPage = () => {
       <Row>
         <MainNavbar />
       </Row>
-      <TaskComponent/>
-      <TaskComponent/>
+      <TaskComponent />
+      <TaskComponent />
+      <TaskComponent />
+      <Row className="my-5 justify-content-center">
+        <Col className="d-flex justify-content-center">
+          <Button variant="success">Add Task</Button>
+          <Button variant="danger" className="ms-2">
+            Remove Task
+          </Button>
+        </Col>
+      </Row>
     </Container>
   );
 };
