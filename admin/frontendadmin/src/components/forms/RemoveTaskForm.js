@@ -5,35 +5,35 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 
-const RemoveRoleForm = () => {
-  const [roles, setRoles] = useState([]);
-  const [selectedRole, setSelectedRole] = useState(null);
+const RemoveTaskForm = () => {
+  const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [showDeleteFail, setShowDeleteFail] = useState(false);
 
   const fetchData = async () => {
     try {
-      let response = await fetch(BASE_URL + "roles/");
+      let response = await fetch(BASE_URL + "tasks/");
       let data = await response.json();
-      const filteredRoles = data.filter(role => role.name !== "Unassigned");
-      setRoles(filteredRoles);
+      const filteredTasks = data.filter(task => task.name !== "Unassigned");
+      setTasks(filteredTasks);
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleChange = (e) => {
-    let roleName = e.target.value;
-    const role = roles.find((role) => role.name === roleName);
-    setSelectedRole(role);
+    let taskName = e.target.value;
+    const task = tasks.find((task) => task.name === taskName);
+    setSelectedTask(task);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     let success;
     try {
-      const response = await axios.delete(`${BASE_URL}roles/${selectedRole.name}`);
+      const response = await axios.delete(`${BASE_URL}tasks/${selectedTask.name}`);
       success = response.data
     } catch (error) {
       console.log(error);
@@ -43,7 +43,7 @@ const RemoveRoleForm = () => {
     } else {
       setShowDeleteFail(true);
     }
-    setSelectedRole(null);
+    setSelectedTask(null);
     event.target.reset();
   };
 
@@ -52,19 +52,20 @@ const RemoveRoleForm = () => {
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationEmployee">
-            <Form.Label>Select a role</Form.Label>
+            <Form.Label>Select a task</Form.Label>
             <Form.Select onFocus={fetchData} onChange={handleChange}>
-            <option disabled value="">Select a role</option>
-              {roles.map((role) => (
-                <option key={role.name} value={role.name}>
-                  {role.name}
+            <option disabled value="">Select an employee</option>
+              {tasks.map((task) => (
+                <option key={task.name} value={task.name}>
+                  {task.name}
                 </option>
               ))}
             </Form.Select>
-            {selectedRole && (
+            {selectedTask && (
               <div className="mt-3">
-                <p>Name: {selectedRole.name}</p>
-                <p>Description: {selectedRole.description}</p>
+                <p>Name: {selectedTask.name}</p>
+                <p>Description: {selectedTask.description}</p>
+                <p>Roles Required: {selectedTask.role_requirement}</p>
               </div>
             )}
           </Form.Group>
@@ -88,11 +89,11 @@ const RemoveRoleForm = () => {
           onClose={() => setShowDeleteSuccess(false)}
           dismissible
         >
-          Role successfully deleted!
+          Task successfully deleted!
         </Alert>
       )}
     </>
   );
 };
 
-export default RemoveRoleForm;
+export default RemoveTaskForm;

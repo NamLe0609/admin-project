@@ -24,6 +24,7 @@ urlpatterns = [
     path('roles/', RoleAPIView.as_view(), name='role-api'),
     path('roles/<str:name>/', RoleAPIView.as_view(), name='role-delete-api'),
     path('tasks/', TaskAPIView.as_view(), name='task-api'),
+    path('tasks/<str:name>/', TaskAPIView.as_view(), name='task-delete-api'),
     path('admins/', AdminAPIView.as_view(), name='admin-api'),
     path('employees/', EmployeeAPIView.as_view(), name='employee-api'),
     path('employees/<int:pk>/', EmployeeAPIView.as_view(), name='employee-delete-api'),
