@@ -12,6 +12,8 @@ import AddEmployeeForm from "./forms/AddEmployeeForm.js";
 import RemoveEmployeeForm from "./forms/RemoveEmployeeForm";
 import AddRoleForm from "./forms/AddRoleForm";
 import RemoveRoleForm from "./forms/RemoveRoleForm";
+import AddTaskForm from "./forms/AddTaskForm";
+import RemoveTaskForm from "./forms/RemoveTaskForm";
 
 const MainNavbar = () => {
   const handleClick = () => {};
@@ -42,12 +44,12 @@ const MainNavbar = () => {
                 Reassign Role
               </Nav.Link>
               <NavDivider />
-              <Nav.Link eventKey="addTask" onClick={handleClick}>
-                Create Task
-              </Nav.Link>
-              <Nav.Link eventKey="removeTask" onClick={handleClick}>
-                Remove task
-              </Nav.Link>
+              <NavModalForm formTitle="Add Task">
+                <AddTaskForm/>
+              </NavModalForm>
+              <NavModalForm formTitle="Remove Task">
+                <RemoveTaskForm/>
+              </NavModalForm>
             </Nav>
           </Navbar.Collapse>
         </Container>
