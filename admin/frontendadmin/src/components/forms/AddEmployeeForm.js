@@ -39,6 +39,10 @@ const AddEmployeeForm = () => {
     }));
   };
 
+  const handleRoleChange = (e) => {
+    registerData.role = e.target.value;
+  };
+
   const handleSubmitRegister = async (event) => {
     event.preventDefault();
     let success;
@@ -93,11 +97,11 @@ const AddEmployeeForm = () => {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationTask">
             <Form.Label>Select a role</Form.Label>
-            <Form.Select onFocus={fetchData}>
+            <Form.Select onFocus={fetchData} onChange={handleRoleChange}>
               <option disabled value="">Select a role</option>
-              {roleOptions.map((option) => (
-                <option key={option.name} value={option.name}>
-                  {option.name}
+              {roleOptions.map((role) => (
+                <option key={role.name} value={role.name}>
+                  {role.name}
                 </option>
               ))}
             </Form.Select>
