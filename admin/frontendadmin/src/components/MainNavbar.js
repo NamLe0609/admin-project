@@ -6,8 +6,8 @@ import {
   Container,
 } from "react-bootstrap";
 
-import NavModalForm from "./forms/navModalForm";
-import NavDivider from "./navDivider";
+import NavModalForm from "./forms/NavModalForm";
+import NavDivider from "./NavDivider";
 import AddEmployeeForm from "./forms/AddEmployeeForm.js";
 import RemoveEmployeeForm from "./forms/RemoveEmployeeForm";
 import AddRoleForm from "./forms/AddRoleForm";
