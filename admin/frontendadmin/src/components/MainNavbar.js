@@ -10,6 +10,7 @@ import NavModalForm from "./forms/navModalForm";
 import NavDivider from "./navDivider";
 import AddEmployeeForm from "./forms/AddEmployeeForm.js";
 import RemoveEmployeeForm from "./forms/RemoveEmployeeForm";
+import AddRoleForm from "./forms/AddRoleForm";
 
 const MainNavbar = () => {
   const handleClick = () => {};
@@ -23,20 +24,20 @@ const MainNavbar = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <NavDivider />
             <Nav className="me-auto">
-              <NavModalForm formTitle="Add Employees" onSubmit={handleClick}>
+              <NavModalForm formTitle="Add Employees">
                 <AddEmployeeForm/>
               </NavModalForm>
-              <NavModalForm formTitle="Remove Employees" onSubmit={handleClick}>
+              <NavModalForm formTitle="Remove Employees">
                 <RemoveEmployeeForm/>
               </NavModalForm>
               <NavDivider />
-              <Nav.Link eventKey="addRole" onClick={handleClick}>
-                Create Role
-              </Nav.Link>
-              <Nav.Link eventKey="removeRole" onClick={handleClick}>
+              <NavModalForm formTitle="Add Role">
+                <AddRoleForm/>
+              </NavModalForm>
+              <Nav.Link eventKey="removeRole">
                 Remove Role
               </Nav.Link>
-              <Nav.Link eventKey="reassignRole" onClick={handleClick}>
+              <Nav.Link eventKey="reassignRole">
                 Reassign Role
               </Nav.Link>
               <NavDivider />

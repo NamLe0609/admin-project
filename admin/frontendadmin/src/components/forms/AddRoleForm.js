@@ -6,30 +6,15 @@ import { Button, Form, Row, Col, InputGroup, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
-const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 
-const AddEmployeeForm = () => {
+const AddRoleForm = () => {
   const [registerData, setRegisterData] = useState({
     name: "",
-    task: "Unassigned",
-    role: "Unassigned",
-    supervisor: adminInfo.username,
+    description: "",
   });
-
-  const [roleOptions, setRoleOptions] = useState([]);
 
   const [showRegisterSuccess, setShowRegisterSuccess] = useState(false);
   const [showRegisterFail, setShowRegisterFail] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      let response = await fetch(BASE_URL + "roles/");
-      let data = await response.json();
-      setRoleOptions(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +29,7 @@ const AddEmployeeForm = () => {
     let success;
     console.log(registerData);
     try {
-      const response = await axios.post(BASE_URL + "employees/", registerData, {
+      const response = await axios.post(BASE_URL + "roles/", registerData, {
         headers: {
           "X-CSRFToken": CSRFTOKEN,
           "Content-Type": "application/json",
@@ -60,10 +45,8 @@ const AddEmployeeForm = () => {
       setShowRegisterFail(true);
     }
     setRegisterData({
-      name: "",
-      task: "Unassigned",
-      role: "Unassigned",
-      supervisor: adminInfo.username,
+        name: "",
+        description: "",
     });
     event.target.reset();
   };
@@ -91,16 +74,22 @@ const AddEmployeeForm = () => {
           </Form.Group>
         </Row>
         <Row className="mb-3">
-          <Form.Group as={Col} controlId="validationTask">
-            <Form.Label>Select a role</Form.Label>
-            <Form.Select onFocus={fetchData}>
-              <option disabled value="">Select a role</option>
-              {roleOptions.map((option) => (
-                <option key={option.id} value={option.name}>
-                  {option.name}
-                </option>
-              ))}
-            </Form.Select>
+          <Form.Group as={Col} controlId="validationDesc">
+            <Form.Label>Description</Form.Label>
+            <InputGroup hasValidation>
+              <Form.Control
+                type="text"
+                placeholder="Description"
+                aria-describedby="inputGroupPrepend"
+                name="description"
+                value={registerData.description}
+                onChange={handleRegisterChange}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please input a description (or leave empty)
+              </Form.Control.Feedback>
+            </InputGroup>
           </Form.Group>
         </Row>
         <Button className="mb-2" type="submit">
@@ -122,11 +111,11 @@ const AddEmployeeForm = () => {
           onClose={() => setShowRegisterFail(false)}
           dismissible
         >
-          Employee successfully added!
+          Role successfully added!
         </Alert>
       )}
     </>
   );
 };
 
-export default AddEmployeeForm;
+export default AddRoleForm;
