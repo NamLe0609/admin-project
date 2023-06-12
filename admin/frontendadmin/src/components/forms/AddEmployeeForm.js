@@ -96,7 +96,7 @@ const AddEmployeeForm = () => {
             <Form.Select onFocus={fetchData}>
               <option disabled value="">Select a role</option>
               {roleOptions.map((option) => (
-                <option key={option.id} value={option.name}>
+                <option key={option.name} value={option.name}>
                   {option.name}
                 </option>
               ))}
