@@ -17,8 +17,6 @@ import RemoveTaskForm from "./forms/RemoveTaskForm";
 import UpdateRoleForm from "./forms/UpdateRoleForm";
 
 const MainNavbar = () => {
-  const handleClick = () => {};
-
   return (
     <>
       <Navbar bg="light" expand="lg">
