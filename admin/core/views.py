@@ -29,8 +29,8 @@ class RoleAPIView(APIView):
         serializer = RoleSerializer(role, data=request.data)
         return checkValidity(serializer)
 
-    def delete(self, request, pk):
-        role = get_object_or_404(Role, pk=pk)
+    def delete(self, request, name):
+        role = get_object_or_404(Role, name=name)
         role.delete()
         return Response(True, status=status.HTTP_204_NO_CONTENT)
     
@@ -54,8 +54,8 @@ class TaskAPIView(APIView):
         serializer = TaskSerializer(task, data=request.data)
         return checkValidity(serializer)
 
-    def delete(self, request, pk):
-        task = get_object_or_404(Task, pk=pk)
+    def delete(self, request, name):
+        task = get_object_or_404(Task, name=name)
         task.delete()
         return Response(True, status=status.HTTP_204_NO_CONTENT)
     
