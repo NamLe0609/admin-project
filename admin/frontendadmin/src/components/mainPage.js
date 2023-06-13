@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getCookie } from "../getCookie.js";
 
@@ -11,10 +11,6 @@ const CSRFTOKEN = getCookie("csrftoken");
 const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 
 const MainPage = () => {
-  const getUserInfo = (e) => {
-    console.log(JSON.parse(window.sessionStorage.getItem("user")));
-  };
-
   // Todo
 
   // Implement ways to:
@@ -23,14 +19,31 @@ const MainPage = () => {
   // Add ways to mass add all tasks to main page
   // Logout button? (not important)
 
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      let response = await fetch(BASE_URL + "tasks/");
+      let data = await response.json();
+      const filteredTasks = data.filter(task => task.name !== "Unassigned");
+      setTasks(filteredTasks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <Container fluid className="px-0">
+    <Container fluid>
       <Row>
-        <MainNavbar />
+        <MainNavbar className="mw-100"/>
       </Row>
-      <TaskComponent />
-      <TaskComponent />
-      <TaskComponent />
+      {tasks.map(task => (
+        <TaskComponent key={task.name} task={task}/>
+      ))}
       <Row className="my-5 justify-content-center">
         <Col className="d-flex justify-content-center">
           <Button variant="success">Add Task</Button>

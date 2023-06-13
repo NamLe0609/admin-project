@@ -29,6 +29,10 @@ const AddTaskForm = () => {
     }
   };
 
+  const handleRoleChange = (e) => {
+    registerData.role_requirement = e.target.value;
+  };
+
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterData((prevData) => ({
@@ -60,7 +64,7 @@ const AddTaskForm = () => {
     setRegisterData({
         name: "",
         description: "",
-        role_requirement: null,
+        role_requirement: "Unassigned",
     });
     event.target.reset();
   };
@@ -109,7 +113,7 @@ const AddTaskForm = () => {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationTask">
             <Form.Label>Select a role</Form.Label>
-            <Form.Select onFocus={fetchData}>
+            <Form.Select onFocus={fetchData} onChange={handleRoleChange}>
               <option value="">Select a role</option>
               {roleOptions.map((option) => (
                 <option key={option.id} value={option.name}>

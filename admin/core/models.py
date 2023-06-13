@@ -1,5 +1,10 @@
 from django.db import models
 
+# All models ideally has much more information,
+# But for the sake of simplicity, only the 'main' ones
+# Are featured. Also tasks and employees are one-to-many relationship
+# Because why not.
+
 class Role(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=300, default='', null=True, blank=True)
@@ -19,4 +24,3 @@ class Employee(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     supervisor = models.ForeignKey(Admin, on_delete=models.CASCADE, null=True, blank=True)
-    
