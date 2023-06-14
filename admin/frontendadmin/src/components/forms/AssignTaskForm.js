@@ -7,7 +7,7 @@ import { Button, Form, Alert } from "react-bootstrap";
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
 
-function AssignTaskForm({ task, employeesEligible }) {
+function AssignTaskForm({ task, employeesEligible, onFormSubmit }) {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   const [showSuccess, setShowSuccess] = useState(false);
@@ -48,6 +48,7 @@ function AssignTaskForm({ task, employeesEligible }) {
       setShowFail(true);
     }
     event.target.reset();
+    onFormSubmit();
   };
 
   return (
