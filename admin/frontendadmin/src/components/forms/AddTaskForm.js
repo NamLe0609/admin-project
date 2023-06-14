@@ -137,7 +137,7 @@ const AddTaskForm = () => {
           onClose={() => setShowRegisterFail(false)}
           dismissible
         >
-          Role successfully added!
+          Task successfully added!
         </Alert>
       )}
     </>
