@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../getCookie.js";
 
-import { Button, Form, Row, Col, InputGroup, Alert } from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
@@ -13,21 +13,20 @@ function AssignTaskForm({ task, employeesEligible }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
 
-
   const handleChange = (e) => {
-    setSelectedEmployee(e.target.value);
+    setSelectedEmployee(JSON.parse(e.target.value));
   };
 
-  /* const handleSubmitRegister = async (event) => {
+  const handleSubmitAssign = async (event) => {
     event.preventDefault();
     let success;
-    selectedEmployee.role = selectedRole;
     const updatedEmployeeData = {
       name: selectedEmployee.name,
-      task: selectedEmployee.task,
+      task: task.name,
       role: selectedEmployee.role,
       supervisor: selectedEmployee.supervisor,
     };
+    console.log(updatedEmployeeData);
     try {
       const response = await axios.put(
         `${BASE_URL}employees/${selectedEmployee.id}/`,
@@ -49,17 +48,17 @@ function AssignTaskForm({ task, employeesEligible }) {
       setShowFail(true);
     }
     event.target.reset();
-  }; */
+  };
 
   return (
     <>
-      <Form>
+      <Form onSubmit={handleSubmitAssign}>
         <select className="w-100" multiple onChange={handleChange}>
           <option disabled value="">
             Select an employee
           </option>
           {employeesEligible.map((employee) => (
-            <option key={employee.id} value={employee}>
+            <option key={employee.id} value={JSON.stringify(employee)}>
               {employee.name}
             </option>
           ))}
@@ -69,13 +68,17 @@ function AssignTaskForm({ task, employeesEligible }) {
         </Button>
       </Form>
       {showFail && (
-        <Alert variant="danger" onClose={() => setShowSuccess(false)} dismissible>
+        <Alert variant="danger" onClose={() => setShowFail(false)} dismissible>
           Uh oh, something went horribly wrong!
         </Alert>
       )}
       {showSuccess && (
-        <Alert variant="success" onClose={() => setShowFail(false)} dismissible>
-          Information successfully updated!
+        <Alert
+          variant="success"
+          onClose={() => setShowSuccess(false)}
+          dismissible
+        >
+          Employee successfully assigned!
         </Alert>
       )}
     </>

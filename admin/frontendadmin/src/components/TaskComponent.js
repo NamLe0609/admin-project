@@ -10,6 +10,8 @@ function TaskComponent({ task }) {
   const [employeesOnTask, setEmployeesOnTask] = useState([]);
   const [employeesEligible, setEmployeesEligible] = useState([]);
 
+  const [update, setUpdate] = useState(null);
+
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -21,13 +23,16 @@ function TaskComponent({ task }) {
       );
       setEmployeesOnTask(employeesOnTask);
       const employeesEligible = employees.filter(
-        (employee) => employee.role === task.role_requirement
+        (employee) =>
+          employee.role === task.role_requirement &&
+          !employeesOnTask.includes(employee)
       );
       setEmployeesEligible(employeesEligible);
     };
 
     filterEmployees();
-  }, [employees, task]);
+    setUpdate(null);
+  }, [employees, task, update]);
 
   const fetchEmployees = async () => {
     try {
@@ -37,6 +42,10 @@ function TaskComponent({ task }) {
     } catch (error) {
       console.error("Error fetching employees:", error);
     }
+  };
+
+  const render = () => {
+    setUpdate(true);
   };
 
   return (
@@ -56,9 +65,13 @@ function TaskComponent({ task }) {
             overflowY: "auto",
           }}
         >
-          {employeesEligible.map((employee) => (
-            <ListGroup.Item key={employee.id}>{employee.name}</ListGroup.Item>
-          ))}
+          {employeesOnTask.length === 0 ? (
+            <ListGroup.Item>No employees assigned</ListGroup.Item>
+          ) : (
+            employeesOnTask.map((employee) => (
+              <ListGroup.Item key={employee.id}>{employee.name}</ListGroup.Item>
+            ))
+          )}
         </ListGroup>
       </Col>
       <Col className="d-flex justify-content-center">
