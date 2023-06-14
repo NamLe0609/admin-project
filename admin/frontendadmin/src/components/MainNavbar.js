@@ -36,7 +36,6 @@ function MainNavbar({ render }) {
               <NavModalForm formTitle="Reassign Role">
                 <UpdateRoleForm onFormSubmit={render}/>
               </NavModalForm>
-              <NavDivider />
             </Nav>
           </Navbar.Collapse>
         </Container>
