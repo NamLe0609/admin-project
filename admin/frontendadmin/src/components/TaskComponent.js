@@ -4,8 +4,6 @@ import ModalForm from "./forms/ModalForm";
 import AssignTaskForm from "./forms/AssignTaskForm";
 import UnassignTaskForm from "./forms/UnassignTaskForm";
 
-const BASE_URL = "http://127.0.0.1:8000/";
-
 function TaskComponent({ employees, task, render }) {
   const [employeesOnTask, setEmployeesOnTask] = useState([]);
   const [employeesEligible, setEmployeesEligible] = useState([]);
