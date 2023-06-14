@@ -7,7 +7,7 @@ from rest_framework import status
 from .models import Role, Task, Admin, Employee
 from .serializer import RoleSerializer, TaskSerializer, AdminSerializer, EmployeeSerializer
 
-CACHE_TTL = 60 * 0.25
+CACHE_TTL = 60 * 0
 
 class RoleAPIView(APIView):
     def get(self, request):
