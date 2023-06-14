@@ -8,7 +8,7 @@ const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
 const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 
-function AddEmployeeForm({ onFormSubmit }) {
+function AddEmployeeForm({ roles, onFormSubmit }) {
   const [registerData, setRegisterData] = useState({
     name: "",
     task: "Unassigned",
@@ -16,20 +16,8 @@ function AddEmployeeForm({ onFormSubmit }) {
     supervisor: adminInfo.username,
   });
 
-  const [roleOptions, setRoleOptions] = useState([]);
-
   const [showRegisterSuccess, setShowRegisterSuccess] = useState(false);
   const [showRegisterFail, setShowRegisterFail] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      let response = await fetch(BASE_URL + "roles/");
-      let data = await response.json();
-      setRoleOptions(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
@@ -89,25 +77,22 @@ function AddEmployeeForm({ onFormSubmit }) {
                 onChange={handleRegisterChange}
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please input a name
-              </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationTask">
             <Form.Label>Select a role</Form.Label>
-            <Form.Select onFocus={fetchData} onChange={handleRoleChange}>
+            <select className="w-100" multiple onChange={handleRoleChange}>
               <option disabled value="">
                 Select a role
               </option>
-              {roleOptions.map((role) => (
+              {roles.map((role) => (
                 <option key={role.name} value={role.name}>
                   {role.name}
                 </option>
               ))}
-            </Form.Select>
+            </select>
           </Form.Group>
         </Row>
         <Button className="mb-2" type="submit">

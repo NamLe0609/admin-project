@@ -55,7 +55,7 @@ const MainPage = () => {
   return (
     <Container fluid>
       <Row>
-        <MainNavbar render={render} className="mw-100" />
+        <MainNavbar employees={employees} render={render} className="mw-100" />
       </Row>
       {tasks.map((task) => (
         <TaskComponent

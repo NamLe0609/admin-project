@@ -5,23 +5,11 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 
-const RemoveRoleForm = () => {
-  const [roles, setRoles] = useState([]);
+function RemoveRoleForm({ roles, onFormSubmit }) {
   const [selectedRole, setSelectedRole] = useState(null);
 
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [showDeleteFail, setShowDeleteFail] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      let response = await fetch(BASE_URL + "roles/");
-      let data = await response.json();
-      const filteredRoles = data.filter(role => role.name !== "Unassigned");
-      setRoles(filteredRoles);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleChange = (e) => {
     let roleName = e.target.value;
@@ -33,8 +21,10 @@ const RemoveRoleForm = () => {
     event.preventDefault();
     let success;
     try {
-      const response = await axios.delete(`${BASE_URL}roles/${selectedRole.name}`);
-      success = response.data
+      const response = await axios.delete(
+        `${BASE_URL}roles/${selectedRole.name}`
+      );
+      success = response.data;
     } catch (error) {
       console.log(error);
     }
@@ -45,6 +35,7 @@ const RemoveRoleForm = () => {
     }
     setSelectedRole(null);
     event.target.reset();
+    onFormSubmit();
   };
 
   return (
@@ -53,14 +44,16 @@ const RemoveRoleForm = () => {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationEmployee">
             <Form.Label>Select a role</Form.Label>
-            <Form.Select onFocus={fetchData} onChange={handleChange}>
-            <option disabled value="">Select a role</option>
+            <select className="w-100" multiple onChange={handleChange}>
+              <option disabled value="">
+                Select a role
+              </option>
               {roles.map((role) => (
                 <option key={role.name} value={role.name}>
                   {role.name}
                 </option>
               ))}
-            </Form.Select>
+            </select>
             {selectedRole && (
               <div className="mt-3">
                 <p>Name: {selectedRole.name}</p>
@@ -93,6 +86,6 @@ const RemoveRoleForm = () => {
       )}
     </>
   );
-};
+}
 
 export default RemoveRoleForm;

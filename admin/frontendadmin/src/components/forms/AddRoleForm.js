@@ -7,7 +7,7 @@ import { Button, Form, Row, Col, InputGroup, Alert } from "react-bootstrap";
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
 
-const AddRoleForm = () => {
+function AddRoleForm({ onFormSubmit }) {
   const [registerData, setRegisterData] = useState({
     name: "",
     description: "",
@@ -49,6 +49,7 @@ const AddRoleForm = () => {
       description: "",
     });
     event.target.reset();
+    onFormSubmit();
   };
 
   return (
@@ -67,9 +68,6 @@ const AddRoleForm = () => {
                 onChange={handleRegisterChange}
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please input a name
-              </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
         </Row>
@@ -112,6 +110,6 @@ const AddRoleForm = () => {
       )}
     </>
   );
-};
+}
 
 export default AddRoleForm;

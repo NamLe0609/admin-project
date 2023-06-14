@@ -91,10 +91,7 @@ function UpdateRoleForm({ onFormSubmit }) {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationEmployee">
             <Form.Label>Select an employee</Form.Label>
-            <Form.Select
-              onFocus={fetchEmployeeData}
-              onChange={handleEmployeeChange}
-            >
+            <select className="w-100" multiple onChange={handleEmployeeChange}>
               <option disabled value="">
                 Select an employee
               </option>
@@ -103,7 +100,7 @@ function UpdateRoleForm({ onFormSubmit }) {
                   {employee.name}
                 </option>
               ))}
-            </Form.Select>
+            </select>
             {selectedEmployee && (
               <div className="mt-3">
                 <p>Name: {selectedEmployee.name}</p>

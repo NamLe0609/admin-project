@@ -6,22 +6,11 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 const BASE_URL = "http://127.0.0.1:8000/";
 const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 
-function RemoveEmployeeForm({ onFormSubmit }) {
-  const [employees, setEmployees] = useState([]);
+function RemoveEmployeeForm({ employees, onFormSubmit }) {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [showDeleteFail, setShowDeleteFail] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      let response = await fetch(BASE_URL + "employees/");
-      let data = await response.json();
-      setEmployees(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleEmployeeChange = (e) => {
     let employeeId = e.target.value;
@@ -57,7 +46,7 @@ function RemoveEmployeeForm({ onFormSubmit }) {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationEmployee">
             <Form.Label>Select an employee</Form.Label>
-            <Form.Select onFocus={fetchData} onChange={handleEmployeeChange}>
+            <select className="w-100" multiple onChange={handleEmployeeChange}>
               <option disabled value="">
                 Select an employee
               </option>
@@ -66,7 +55,7 @@ function RemoveEmployeeForm({ onFormSubmit }) {
                   {employee.name}
                 </option>
               ))}
-            </Form.Select>
+            </select>
             {selectedEmployee && (
               <div className="mt-3">
                 <p>Name: {selectedEmployee.name}</p>

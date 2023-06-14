@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getCookie } from "../getCookie";
 
 import { Nav, Navbar, Container } from "react-bootstrap";
 
@@ -10,7 +11,33 @@ import AddRoleForm from "./forms/AddRoleForm";
 import RemoveRoleForm from "./forms/RemoveRoleForm";
 import UpdateRoleForm from "./forms/UpdateRoleForm";
 
-function MainNavbar({ render }) {
+const BASE_URL = "http://127.0.0.1:8000/";
+
+function MainNavbar({ employees, render }) {
+  const [roles, setRoles] = useState([]);
+  const [update, setUpdate] = useState(null);
+
+  useEffect(() => {
+    const fetchRoles = async () => {
+    try {
+      let response = await fetch(BASE_URL + "roles/");
+      let data = await response.json();
+      setRoles(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+    fetchRoles();
+    setUpdate(null);
+  }, [update])
+
+  
+  const refreshRoles = () => {
+    setUpdate(true);
+  }
+
+
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -21,20 +48,20 @@ function MainNavbar({ render }) {
             <NavDivider />
             <Nav className="me-auto">
               <NavModalForm formTitle="Add Employees">
-                <AddEmployeeForm onFormSubmit={render}/>
+                <AddEmployeeForm roles={roles} onFormSubmit={render}/>
               </NavModalForm>
               <NavModalForm formTitle="Remove Employees">
-                <RemoveEmployeeForm onFormSubmit={render}/>
+                <RemoveEmployeeForm employees={employees} onFormSubmit={render}/>
               </NavModalForm>
               <NavDivider />
               <NavModalForm formTitle="Add Role">
-                <AddRoleForm />
+                <AddRoleForm onFormSubmit={refreshRoles}/>
               </NavModalForm>
               <NavModalForm formTitle="Remove Role">
-                <RemoveRoleForm />
+                <RemoveRoleForm roles={roles} onFormSubmit={refreshRoles}/>
               </NavModalForm>
               <NavModalForm formTitle="Reassign Role">
-                <UpdateRoleForm onFormSubmit={render}/>
+                <UpdateRoleForm employees={employees} onFormSubmit={render}/>
               </NavModalForm>
             </Nav>
           </Navbar.Collapse>
