@@ -16,7 +16,7 @@ const RemoveTaskForm = () => {
     try {
       let response = await fetch(BASE_URL + "tasks/");
       let data = await response.json();
-      const filteredTasks = data.filter(task => task.name !== "Unassigned");
+      const filteredTasks = data.filter((task) => task.name !== "Unassigned");
       setTasks(filteredTasks);
     } catch (error) {
       console.error(error);
@@ -33,8 +33,10 @@ const RemoveTaskForm = () => {
     event.preventDefault();
     let success;
     try {
-      const response = await axios.delete(`${BASE_URL}tasks/${selectedTask.name}`);
-      success = response.data
+      const response = await axios.delete(
+        `${BASE_URL}tasks/${selectedTask.name}`
+      );
+      success = response.data;
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +56,9 @@ const RemoveTaskForm = () => {
           <Form.Group as={Col} controlId="validationEmployee">
             <Form.Label>Select a task</Form.Label>
             <Form.Select onFocus={fetchData} onChange={handleChange}>
-            <option disabled value="">Select an employee</option>
+              <option disabled value="">
+                Select an employee
+              </option>
               {tasks.map((task) => (
                 <option key={task.name} value={task.name}>
                   {task.name}

@@ -123,7 +123,7 @@ const AddEmployeeForm = () => {
       {showRegisterSuccess && (
         <Alert
           variant="success"
-          onClose={() => setShowRegisterFail(false)}
+          onClose={() => setShowRegisterSuccess(false)}
           dismissible
         >
           Employee successfully added!

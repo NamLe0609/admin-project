@@ -90,7 +90,6 @@ class EmployeeAPIView(APIView):
     def get(self, request):
         cacheName = "employee_list"
         cache = checkCache(cacheName)
-        print("hi")
         if cache:
             return cache
         else:
