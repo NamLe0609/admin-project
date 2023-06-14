@@ -14,18 +14,21 @@ const MainPage = () => {
   // Todo
 
   // Implement ways to:
-  // Assign/unassign employees to tasks (Interface with dropdown of employees applicable)
+  // 
   // Make the tasks run in Celery?
-  // Add ways to mass add all tasks to main page
   // Logout button? (not important)
 
+  const [employees, setEmployees] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [update, setUpdate] = useState(null);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchTasks();
+    fetchEmployees();
+    setUpdate(null)
+  }, [update]);
 
-  const fetchData = async () => {
+  const fetchTasks = async () => {
     try {
       let response = await fetch(BASE_URL + "tasks/");
       let data = await response.json();
@@ -36,13 +39,27 @@ const MainPage = () => {
     }
   };
 
+  const render = () => {
+    setUpdate(true);
+  }
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch(BASE_URL + "employees/");
+      const data = await response.json();
+      setEmployees(data);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
+  };
+
   return (
     <Container fluid>
       <Row>
         <MainNavbar className="mw-100"/>
       </Row>
       {tasks.map(task => (
-        <TaskComponent key={task.name} task={task}/>
+        <TaskComponent key={task.name} employees={employees} task={task} render={render}/>
       ))}
       <Row className="my-5 justify-content-center">
         <Col className="d-flex justify-content-center">

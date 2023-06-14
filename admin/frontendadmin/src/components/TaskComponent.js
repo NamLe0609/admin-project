@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, ListGroup } from "react-bootstrap";
 import ModalForm from "./forms/ModalForm";
 import AssignTaskForm from "./forms/AssignTaskForm";
+import UnassignTaskForm from "./forms/UnassignTaskForm";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 
-function TaskComponent({ task }) {
-  const [employees, setEmployees] = useState([]);
+function TaskComponent({ employees, task, render }) {
   const [employeesOnTask, setEmployeesOnTask] = useState([]);
   const [employeesEligible, setEmployeesEligible] = useState([]);
-
-  const [update, setUpdate] = useState(null);
-
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
 
   useEffect(() => {
     const filterEmployees = () => {
@@ -25,28 +19,13 @@ function TaskComponent({ task }) {
       const employeesEligible = employees.filter(
         (employee) =>
           employee.role === task.role_requirement &&
-          !employeesOnTask.includes(employee)
+          employee.task === "Unassigned"
       );
       setEmployeesEligible(employeesEligible);
     };
 
     filterEmployees();
-    setUpdate(null);
-  }, [employees, task, update]);
-
-  const fetchEmployees = async () => {
-    try {
-      const response = await fetch(BASE_URL + "employees/");
-      const data = await response.json();
-      setEmployees(data);
-    } catch (error) {
-      console.error("Error fetching employees:", error);
-    }
-  };
-
-  const render = () => {
-    setUpdate(true);
-  };
+  }, [employees, task]);
 
   return (
     <Row className="my-5 align-items-center">
@@ -81,12 +60,18 @@ function TaskComponent({ task }) {
             buttonType="primary"
             className="mb-2"
           >
-            <AssignTaskForm task={task} employeesEligible={employeesEligible} />
+            <AssignTaskForm
+              task={task}
+              employeesEligible={employeesEligible}
+              onFormSubmit={render}
+            />
           </ModalForm>
-          <ModalForm
-            formTitle="Remove Employee"
-            buttonType="secondary"
-          ></ModalForm>
+          <ModalForm formTitle="Unassign Employee" buttonType="secondary">
+            <UnassignTaskForm
+              employeesEligible={employeesOnTask}
+              onFormSubmit={render}
+            />
+          </ModalForm>
         </div>
       </Col>
     </Row>
