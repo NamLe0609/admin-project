@@ -12,8 +12,6 @@ import AddEmployeeForm from "./forms/AddEmployeeForm.js";
 import RemoveEmployeeForm from "./forms/RemoveEmployeeForm";
 import AddRoleForm from "./forms/AddRoleForm";
 import RemoveRoleForm from "./forms/RemoveRoleForm";
-import AddTaskForm from "./forms/AddTaskForm";
-import RemoveTaskForm from "./forms/RemoveTaskForm";
 import UpdateRoleForm from "./forms/UpdateRoleForm";
 
 const MainNavbar = () => {
@@ -43,12 +41,6 @@ const MainNavbar = () => {
                 <UpdateRoleForm/>
               </NavModalForm>
               <NavDivider />
-              <NavModalForm formTitle="Add Task">
-                <AddTaskForm/>
-              </NavModalForm>
-              <NavModalForm formTitle="Remove Task">
-                <RemoveTaskForm/>
-              </NavModalForm>
             </Nav>
           </Navbar.Collapse>
         </Container>

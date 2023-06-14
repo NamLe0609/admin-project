@@ -5,6 +5,9 @@ import { getCookie } from "../getCookie.js";
 import MainNavbar from "./MainNavbar.js";
 import TaskComponent from "./TaskComponent.js";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import ModalForm from "./forms/ModalForm.js";
+import AddTaskForm from "./forms/AddTaskForm.js";
+import RemoveTaskForm from "./forms/RemoveTaskForm.js";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
@@ -14,7 +17,7 @@ const MainPage = () => {
   // Todo
 
   // Implement ways to:
-  // 
+  //
   // Make the tasks run in Celery?
   // Logout button? (not important)
 
@@ -25,14 +28,14 @@ const MainPage = () => {
   useEffect(() => {
     fetchTasks();
     fetchEmployees();
-    setUpdate(null)
+    setUpdate(null);
   }, [update]);
 
   const fetchTasks = async () => {
     try {
       let response = await fetch(BASE_URL + "tasks/");
       let data = await response.json();
-      const filteredTasks = data.filter(task => task.name !== "Unassigned");
+      const filteredTasks = data.filter((task) => task.name !== "Unassigned");
       setTasks(filteredTasks);
     } catch (error) {
       console.error(error);
@@ -41,7 +44,7 @@ const MainPage = () => {
 
   const render = () => {
     setUpdate(true);
-  }
+  };
 
   const fetchEmployees = async () => {
     try {
@@ -56,17 +59,32 @@ const MainPage = () => {
   return (
     <Container fluid>
       <Row>
-        <MainNavbar className="mw-100"/>
+        <MainNavbar className="mw-100" />
       </Row>
-      {tasks.map(task => (
-        <TaskComponent key={task.name} employees={employees} task={task} render={render}/>
+      {tasks.map((task) => (
+        <TaskComponent
+          key={task.name}
+          employees={employees}
+          task={task}
+          render={render}
+        />
       ))}
       <Row className="my-5 justify-content-center">
         <Col className="d-flex justify-content-center">
-          <Button variant="success">Add Task</Button>
-          <Button variant="danger" className="ms-2">
-            Remove Task
-          </Button>
+          <ModalForm
+            formTitle="Add Task"
+            buttonType="success"
+            className="mx-1"
+          >
+            <AddTaskForm onFormSubmit={render}/>
+          </ModalForm>
+          <ModalForm
+            formTitle="Remove Task"
+            buttonType="danger"
+            className="mx-1"
+          >
+            <RemoveTaskForm onFormSubmit={render}/>
+          </ModalForm>
         </Col>
       </Row>
     </Container>

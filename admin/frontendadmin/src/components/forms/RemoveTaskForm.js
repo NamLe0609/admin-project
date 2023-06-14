@@ -5,7 +5,7 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 
-const RemoveTaskForm = () => {
+function RemoveTaskForm({ onFormSubmit }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -47,6 +47,7 @@ const RemoveTaskForm = () => {
     }
     setSelectedTask(null);
     event.target.reset();
+    onFormSubmit();
   };
 
   return (

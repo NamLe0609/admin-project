@@ -7,7 +7,7 @@ import { Button, Form, Row, Col, InputGroup, Alert } from "react-bootstrap";
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
 
-const AddTaskForm = () => {
+function AddTaskForm({ onFormSubmit }) {
   const [registerData, setRegisterData] = useState({
     name: "",
     description: "",
@@ -67,6 +67,7 @@ const AddTaskForm = () => {
       role_requirement: "Unassigned",
     });
     event.target.reset();
+    onFormSubmit();
   };
 
   return (
@@ -95,14 +96,15 @@ const AddTaskForm = () => {
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
             <Form.Control
-                type="text"
-                placeholder="Description"
-                as="textarea" rows={3}
-                aria-describedby="inputGroupPrepend"
-                name="description"
-                value={registerData.description}
-                onChange={handleRegisterChange}
-              />
+              type="text"
+              placeholder="Description"
+              as="textarea"
+              rows={3}
+              aria-describedby="inputGroupPrepend"
+              name="description"
+              value={registerData.description}
+              onChange={handleRegisterChange}
+            />
           </Form.Group>
         </Row>
         <Row className="mb-3">
@@ -142,6 +144,6 @@ const AddTaskForm = () => {
       )}
     </>
   );
-};
+}
 
 export default AddTaskForm;
