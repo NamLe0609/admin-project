@@ -62,9 +62,9 @@ const AddTaskForm = () => {
       setShowRegisterFail(true);
     }
     setRegisterData({
-        name: "",
-        description: "",
-        role_requirement: "Unassigned",
+      name: "",
+      description: "",
+      role_requirement: "Unassigned",
     });
     event.target.reset();
   };
@@ -91,23 +91,18 @@ const AddTaskForm = () => {
             </InputGroup>
           </Form.Group>
         </Row>
-        <Row className="mb-3">
-          <Form.Group as={Col} controlId="validationDesc">
+        <Row>
+          <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
-            <InputGroup hasValidation>
-              <Form.Control
+            <Form.Control
                 type="text"
                 placeholder="Description"
+                as="textarea" rows={3}
                 aria-describedby="inputGroupPrepend"
                 name="description"
                 value={registerData.description}
                 onChange={handleRegisterChange}
-                required
               />
-              <Form.Control.Feedback type="invalid">
-                Please input a description (or leave empty)
-              </Form.Control.Feedback>
-            </InputGroup>
           </Form.Group>
         </Row>
         <Row className="mb-3">

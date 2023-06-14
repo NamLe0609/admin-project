@@ -54,8 +54,8 @@ function TaskComponent({ task }) {
             maxHeight: "200px",
             overflowY: "auto",
             scrollbarWidth: "none" /* Hide scrollbar for Firefox */,
-            "-ms-overflow-style": "none" /* Hide scrollbar for IE and Edge */,
-            "&::-webkit-scrollbar": {
+            "msOverflowStyle": "none" /* Hide scrollbar for IE and Edge */,
+            "&::WebkitScrollbar": {
               display:
                 "none" /* Hide scrollbar for Chrome, Safari, and Opera */,
             },

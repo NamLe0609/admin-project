@@ -45,8 +45,8 @@ const AddRoleForm = () => {
       setShowRegisterFail(true);
     }
     setRegisterData({
-        name: "",
-        description: "",
+      name: "",
+      description: "",
     });
     event.target.reset();
   };
@@ -74,22 +74,18 @@ const AddRoleForm = () => {
           </Form.Group>
         </Row>
         <Row className="mb-3">
-          <Form.Group as={Col} controlId="validationDesc">
+          <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
-            <InputGroup hasValidation>
-              <Form.Control
-                type="text"
-                placeholder="Description"
-                aria-describedby="inputGroupPrepend"
-                name="description"
-                value={registerData.description}
-                onChange={handleRegisterChange}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please input a description (or leave empty)
-              </Form.Control.Feedback>
-            </InputGroup>
+            <Form.Control
+              type="text"
+              placeholder="Leave blank if not necessary"
+              as="textarea"
+              rows={3}
+              aria-describedby="inputGroupPrepend"
+              name="description"
+              value={registerData.description}
+              onChange={handleRegisterChange}
+            />
           </Form.Group>
         </Row>
         <Button className="mb-2" type="submit">

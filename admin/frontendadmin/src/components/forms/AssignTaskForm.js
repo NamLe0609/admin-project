@@ -54,7 +54,7 @@ function AssignTaskForm({ task, employeesEligible }) {
   return (
     <>
       <Form>
-        <Form.Select onChange={handleChange}>
+        <select className="w-100" multiple onChange={handleChange}>
           <option disabled value="">
             Select an employee
           </option>
@@ -63,9 +63,9 @@ function AssignTaskForm({ task, employeesEligible }) {
               {employee.name}
             </option>
           ))}
-        </Form.Select>
+        </select>
         <Button className="my-2" type="submit">
-          Update
+          Assign
         </Button>
       </Form>
       {showFail && (
