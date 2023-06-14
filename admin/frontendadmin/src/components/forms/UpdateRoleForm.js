@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookie } from "../../getCookie.js";
 
-import { Button, Form, Row, Col, InputGroup, Alert } from "react-bootstrap";
+import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
 
-const UpdateRoleForm = () => {
+function UpdateRoleForm({ onFormSubmit }) {
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [roleOptions, setRoleOptions] = useState([]);
@@ -56,11 +56,11 @@ const UpdateRoleForm = () => {
     let success;
     selectedEmployee.role = selectedRole;
     const updatedEmployeeData = {
-        name: selectedEmployee.name,
-        task: selectedEmployee.task,
-        role: selectedEmployee.role,
-        supervisor: selectedEmployee.supervisor
-      };
+      name: selectedEmployee.name,
+      task: selectedEmployee.task,
+      role: selectedEmployee.role,
+      supervisor: selectedEmployee.supervisor,
+    };
     try {
       const response = await axios.put(
         `${BASE_URL}employees/${selectedEmployee.id}/`,
@@ -82,6 +82,7 @@ const UpdateRoleForm = () => {
       setShowFail(true);
     }
     event.target.reset();
+    onFormSubmit();
   };
 
   return (
@@ -146,6 +147,6 @@ const UpdateRoleForm = () => {
       )}
     </>
   );
-};
+}
 
 export default UpdateRoleForm;

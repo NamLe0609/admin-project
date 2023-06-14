@@ -1,10 +1,6 @@
 import React from "react";
 
-import {
-  Nav,
-  Navbar,
-  Container,
-} from "react-bootstrap";
+import { Nav, Navbar, Container } from "react-bootstrap";
 
 import NavModalForm from "./forms/NavModalForm";
 import NavDivider from "./NavDivider";
@@ -14,7 +10,7 @@ import AddRoleForm from "./forms/AddRoleForm";
 import RemoveRoleForm from "./forms/RemoveRoleForm";
 import UpdateRoleForm from "./forms/UpdateRoleForm";
 
-const MainNavbar = () => {
+function MainNavbar({ render }) {
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -25,20 +21,20 @@ const MainNavbar = () => {
             <NavDivider />
             <Nav className="me-auto">
               <NavModalForm formTitle="Add Employees">
-                <AddEmployeeForm/>
+                <AddEmployeeForm onFormSubmit={render}/>
               </NavModalForm>
               <NavModalForm formTitle="Remove Employees">
-                <RemoveEmployeeForm/>
+                <RemoveEmployeeForm onFormSubmit={render}/>
               </NavModalForm>
               <NavDivider />
               <NavModalForm formTitle="Add Role">
-                <AddRoleForm/>
+                <AddRoleForm />
               </NavModalForm>
               <NavModalForm formTitle="Remove Role">
-                <RemoveRoleForm/>
+                <RemoveRoleForm />
               </NavModalForm>
               <NavModalForm formTitle="Reassign Role">
-                <UpdateRoleForm/>
+                <UpdateRoleForm onFormSubmit={render}/>
               </NavModalForm>
               <NavDivider />
             </Nav>
@@ -47,6 +43,6 @@ const MainNavbar = () => {
       </Navbar>
     </>
   );
-};
+}
 
 export default MainNavbar;

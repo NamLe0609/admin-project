@@ -6,7 +6,7 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 const BASE_URL = "http://127.0.0.1:8000/";
 const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 
-const RemoveEmployeeForm = () => {
+function RemoveEmployeeForm({ onFormSubmit }) {
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
@@ -34,8 +34,10 @@ const RemoveEmployeeForm = () => {
     event.preventDefault();
     let success;
     try {
-      const response = await axios.delete(`${BASE_URL}employees/${selectedEmployee.id}`);
-      success = response.data
+      const response = await axios.delete(
+        `${BASE_URL}employees/${selectedEmployee.id}`
+      );
+      success = response.data;
     } catch (error) {
       console.log(error);
     }
@@ -46,6 +48,7 @@ const RemoveEmployeeForm = () => {
     }
     setSelectedEmployee(null);
     event.target.reset();
+    onFormSubmit();
   };
 
   return (
@@ -55,7 +58,9 @@ const RemoveEmployeeForm = () => {
           <Form.Group as={Col} controlId="validationEmployee">
             <Form.Label>Select an employee</Form.Label>
             <Form.Select onFocus={fetchData} onChange={handleEmployeeChange}>
-            <option disabled value="">Select an employee</option>
+              <option disabled value="">
+                Select an employee
+              </option>
               {employees.map((employee) => (
                 <option key={employee.id} value={employee.id}>
                   {employee.name}
@@ -96,6 +101,6 @@ const RemoveEmployeeForm = () => {
       )}
     </>
   );
-};
+}
 
 export default RemoveEmployeeForm;

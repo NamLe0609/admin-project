@@ -8,7 +8,7 @@ const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
 const adminInfo = JSON.parse(window.sessionStorage.getItem("admin"));
 
-const AddEmployeeForm = () => {
+function AddEmployeeForm({ onFormSubmit }) {
   const [registerData, setRegisterData] = useState({
     name: "",
     task: "Unassigned",
@@ -70,6 +70,7 @@ const AddEmployeeForm = () => {
       supervisor: adminInfo.username,
     });
     event.target.reset();
+    onFormSubmit();
   };
 
   return (
@@ -98,7 +99,9 @@ const AddEmployeeForm = () => {
           <Form.Group as={Col} controlId="validationTask">
             <Form.Label>Select a role</Form.Label>
             <Form.Select onFocus={fetchData} onChange={handleRoleChange}>
-              <option disabled value="">Select a role</option>
+              <option disabled value="">
+                Select a role
+              </option>
               {roleOptions.map((role) => (
                 <option key={role.name} value={role.name}>
                   {role.name}
@@ -131,6 +134,6 @@ const AddEmployeeForm = () => {
       )}
     </>
   );
-};
+}
 
 export default AddEmployeeForm;
