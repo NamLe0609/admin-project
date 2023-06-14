@@ -6,6 +6,8 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 const BASE_URL = "http://127.0.0.1:8000/";
 
 function RemoveRoleForm({ roles, onFormSubmit }) {
+  const filteredRoles = roles.filter((role) => role.name !== "Unassigned");
+
   const [selectedRole, setSelectedRole] = useState(null);
 
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
@@ -48,7 +50,7 @@ function RemoveRoleForm({ roles, onFormSubmit }) {
               <option disabled value="">
                 Select a role
               </option>
-              {roles.map((role) => (
+              {filteredRoles.map((role) => (
                 <option key={role.name} value={role.name}>
                   {role.name}
                 </option>

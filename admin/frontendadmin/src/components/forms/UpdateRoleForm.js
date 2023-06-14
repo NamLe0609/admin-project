@@ -7,40 +7,17 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 const BASE_URL = "http://127.0.0.1:8000/";
 const CSRFTOKEN = getCookie("csrftoken");
 
-function UpdateRoleForm({ onFormSubmit }) {
-  const [employeeOptions, setEmployeeOptions] = useState([]);
+function UpdateRoleForm({ employees, roles, onFormSubmit }) {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [roleOptions, setRoleOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState(null);
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFail, setShowFail] = useState(false);
 
-  const fetchEmployeeData = async () => {
-    try {
-      let response = await fetch(BASE_URL + "employees/");
-      let data = await response.json();
-      setEmployeeOptions(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchRoleData = async () => {
-    try {
-      let response = await fetch(BASE_URL + "roles/");
-      let data = await response.json();
-      const role = data.filter((role) => role.name !== "Unassigned");
-      setRoleOptions(role);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleEmployeeChange = (e) => {
     let employeeId = e.target.value;
     employeeId = parseInt(e.target.value, 10);
-    const employee = employeeOptions.find(
+    const employee = employees.find(
       (employee) => employee.id === employeeId
     );
     setSelectedEmployee(employee);
@@ -95,7 +72,7 @@ function UpdateRoleForm({ onFormSubmit }) {
               <option disabled value="">
                 Select an employee
               </option>
-              {employeeOptions.map((employee) => (
+              {employees.map((employee) => (
                 <option key={employee.id} value={employee.id}>
                   {employee.name}
                 </option>
@@ -115,16 +92,16 @@ function UpdateRoleForm({ onFormSubmit }) {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="validationRole">
               <Form.Label>Select a role</Form.Label>
-              <Form.Select onFocus={fetchRoleData} onChange={handleRoleChange}>
+              <select className="w-100" multiple onChange={handleRoleChange}>
                 <option disabled value="">
                   Select a role
                 </option>
-                {roleOptions.map((role) => (
+                {roles.map((role) => (
                   <option key={role.name} value={role.name}>
                     {role.name}
                   </option>
                 ))}
-              </Form.Select>
+              </select>
             </Form.Group>
           </Row>
         )}

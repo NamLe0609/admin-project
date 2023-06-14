@@ -61,7 +61,7 @@ function MainNavbar({ employees, render }) {
                 <RemoveRoleForm roles={roles} onFormSubmit={refreshRoles}/>
               </NavModalForm>
               <NavModalForm formTitle="Reassign Role">
-                <UpdateRoleForm employees={employees} onFormSubmit={render}/>
+                <UpdateRoleForm employees={employees} roles={roles} onFormSubmit={render}/>
               </NavModalForm>
             </Nav>
           </Navbar.Collapse>
