@@ -21,6 +21,6 @@ class Admin(models.Model):
     
 class Employee(models.Model):
     name = models.CharField(max_length=30)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True, blank=True)
     supervisor = models.ForeignKey(Admin, on_delete=models.CASCADE, null=True, blank=True)

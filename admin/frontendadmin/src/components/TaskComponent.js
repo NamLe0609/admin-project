@@ -33,7 +33,11 @@ function TaskComponent({ employees, task, render }) {
         <h4>{task.name}</h4>
       </Col>
       <Col className="d-flex justify-content-center">
-        <div>{task.description}</div>
+        {task.description.length === 0 ? (
+          <div>No description</div>
+        ) : (
+          <div>{task.description}</div>
+        )}
       </Col>
       <Col className="d-flex justify-content-center">
         <ListGroup

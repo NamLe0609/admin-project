@@ -75,7 +75,7 @@ const MainPage = () => {
             buttonType="danger"
             className="mx-1"
           >
-            <RemoveTaskForm onFormSubmit={render} />
+            <RemoveTaskForm tasks={tasks} onFormSubmit={render} />
           </ModalForm>
         </Col>
       </Row>

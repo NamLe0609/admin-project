@@ -5,23 +5,13 @@ import { Button, Form, Row, Col, Alert } from "react-bootstrap";
 
 const BASE_URL = "http://127.0.0.1:8000/";
 
-function RemoveTaskForm({ onFormSubmit }) {
-  const [tasks, setTasks] = useState([]);
+function RemoveTaskForm({ tasks, onFormSubmit }) {
+  const filteredTasks = tasks.filter((task) => task.name !== "Unassigned");
+
   const [selectedTask, setSelectedTask] = useState(null);
 
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [showDeleteFail, setShowDeleteFail] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      let response = await fetch(BASE_URL + "tasks/");
-      let data = await response.json();
-      const filteredTasks = data.filter((task) => task.name !== "Unassigned");
-      setTasks(filteredTasks);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleChange = (e) => {
     let taskName = e.target.value;
@@ -56,16 +46,16 @@ function RemoveTaskForm({ onFormSubmit }) {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="validationEmployee">
             <Form.Label>Select a task</Form.Label>
-            <Form.Select onFocus={fetchData} onChange={handleChange}>
+            <select className="w-100" multiple onChange={handleChange}>
               <option disabled value="">
                 Select an employee
               </option>
-              {tasks.map((task) => (
+              {filteredTasks.map((task) => (
                 <option key={task.name} value={task.name}>
                   {task.name}
                 </option>
               ))}
-            </Form.Select>
+            </select>
             {selectedTask && (
               <div className="mt-3">
                 <p>Name: {selectedTask.name}</p>
