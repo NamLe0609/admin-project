@@ -65,7 +65,7 @@ function UnassignTaskForm({ employeesEligible, onFormSubmit }) {
           ))}
         </select>
         <Button className="my-2" type="submit">
-          Assign
+          Unassign
         </Button>
       </Form>
       {showFail && (

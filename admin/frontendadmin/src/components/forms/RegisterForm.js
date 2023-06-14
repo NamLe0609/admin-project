@@ -67,7 +67,7 @@ const RegisterForm = () => {
                 name="name"
                 value={registerData.name}
                 onChange={handleRegisterChange}
-                
+                disabled
               />
             </InputGroup>
           </Form.Group>
@@ -83,7 +83,7 @@ const RegisterForm = () => {
                 name="username"
                 value={registerData.username}
                 onChange={handleRegisterChange}
-                
+                disabled
               />
               <Form.Control.Feedback type="invalid">
                 Please input a username
@@ -102,7 +102,7 @@ const RegisterForm = () => {
                 name="password"
                 value={registerData.password}
                 onChange={handleRegisterChange}
-                
+                disabled
               />
               <Form.Control.Feedback type="invalid">
                 Please input a password
@@ -111,7 +111,7 @@ const RegisterForm = () => {
           </Form.Group>
         </Row>
 
-        <Button  className="mb-2" type="submit">
+        <Button disabled className="mb-2" type="submit">
           Register
         </Button>
       </Form>
