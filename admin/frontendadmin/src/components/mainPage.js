@@ -15,9 +15,11 @@ const MainPage = () => {
   // Implement ways to:
   //
   // Make tasks run on a timer in Celery?
-  // Role hierarchy
+  // Have a role hierarchy
   // Remove tasks which still have employees assigned without delete cascading
-  // Logout button? (not important)
+  // Make a proper login system (user sessions/ password hashing)
+  // Make a Logout button
+
 
   const [employees, setEmployees] = useState([]);
   const [tasks, setTasks] = useState([]);
