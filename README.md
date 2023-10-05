@@ -1,5 +1,9 @@
-# Admin project
+# Admin website
 
-This project is an admin website built using ReactJs for frontend, Django for backend, and Postgresql for the database.
-
-Additionally, Redis and celery is used to cache and to process concurrent tasks respectively. Bootstrap React is used to make the frontend look nicer.
+This admin website allows a manager account to:
+ 
+* Login 
+* Create employees, tasks, and roles
+* Delete employees, tasks and roles
+* Assign one or multiple roles to employees
+* Assign tasks to employees such that only those with a certain role are allowed access to 
